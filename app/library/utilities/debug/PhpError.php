@@ -13,41 +13,40 @@ namespace Utilities\Debug;
 
 class PhpError {
 
+    /**
+     * Record any warnings/errors by php
+     *
+     * @param int		php error number
+     * @param string	php error description
+     * @param string	php file where the error occured
+     * @param int		php line where the error occured
+     */
+    public static function errorHandler($errNo, $errStr, $errFile, $errLine) {
 
-	/**
-	 * Record any warnings/errors by php
-	 *
-	 * @param int		php error number
-	 * @param string	php error description
-	 * @param string	php file where the error occured
-	 * @param int		php line where the error occured
-	 */
-	public static function errorHandler($errNo, $errStr, $errFile, $errLine) {
-
-		if ($errNo != E_STRICT) {
+        if ($errNo != E_STRICT) {
             //self::logToDb($errNo, $errStr, $errFile, $errLine);
             self::logToSyslog($errNo, $errStr, $errFile, $errLine);
-		}
-	}
+        }
+    }
 
-	/**
-	 * Capture any errors at the end script (especially runtime errors)
-	 */
-	public static function runtimeShutdown() {
-		$e = error_get_last();
-		if (!empty($e)) {
-			// Record Error
-			PhpError::errorHandler($e['type'], $e['message'], $e['file'], $e['line']);
-		}
-	}
+    /**
+     * Capture any errors at the end script (especially runtime errors)
+     */
+    public static function runtimeShutdown() {
+        $e = error_get_last();
+        if (!empty($e)) {
+            // Record Error
+            PhpError::errorHandler($e['type'], $e['message'], $e['file'], $e['line']);
+        }
+    }
 
     /**
      * Log error to syslog
      *
-	 * @param int		php error number
-	 * @param string	php error description
-	 * @param string	php file where the error occured
-	 * @param int		php line where the error occured
+     * @param int		php error number
+     * @param string	php error description
+     * @param string	php file where the error occured
+     * @param int		php line where the error occured
      * @return bool
      */
     public static function logToSyslog($errNo, $errStr, $errFile, $errLine) {
@@ -63,16 +62,16 @@ class PhpError {
     /**
      * Log error to database
      *
-	 * @param int		php error number
-	 * @param string	php error description
-	 * @param string	php file where the error occured
-	 * @param int		php line where the error occured
+     * @param int		php error number
+     * @param string	php error description
+     * @param string	php file where the error occured
+     * @param int		php line where the error occured
      * @return bool
      */
     public static function logToDb($errNo, $errStr, $errFile, $errLine) {
 
         // Get Remote Ip or CLI script?
-        if (PHP_SAPI == 'cli') {  
+        if (PHP_SAPI == 'cli') {
             $script = $_SERVER['PHP_SELF'];
             $ip = 'CLI';
         } else {
@@ -81,7 +80,7 @@ class PhpError {
             $ip = $_SERVER['REMOTE_ADDR'];
         }
 
-        $rt = new \Models\RuntimeError();	
+        $rt = new \Models\RuntimeError();
         $rt->title = $errStr;
         $rt->file = $errFile;
         $rt->line = $errLine;

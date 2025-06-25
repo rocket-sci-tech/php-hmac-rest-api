@@ -14,8 +14,8 @@ namespace Interfaces;
 
 interface IRun {
 
-	/**
-	 * Main method to run the object
-	 */
-	public function run();
+    /**
+     * Main method to run the object
+     */
+    public function run();
 }

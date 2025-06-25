@@ -1,0 +1,20 @@
+{
+    "name": "rocket-sci-tech/php-hmac-rest-api",
+    "description": "PHP HMAC Restful API that uses Phalcon Micro framework",
+    "type": "library",
+    "keywords": ["hmac", "phalcon", "micro", "rest-api", "restful", "api"],
+    "homepage": "https://github.com/rocket-sci-tech/php-hmac-rest-api",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Sergey Kuznetsov",
+            "email": "sergey.kuznetsov@hls.tv",
+            "homepage": "https://github.com/rocket-sci-tech/php-hmac-rest-api",
+            "role": "Maintainer"
+        }
+    ],
+    "require": {
+        "php": ">=8.2",
+        "ext-phalcon": ">=5.8"
+    }
+}
