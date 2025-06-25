@@ -6,7 +6,7 @@
  * @package Application
  * @author Jete O'Keeffe
  * @version 1.0
- * @link http://docs.phalconphp.com/en/latest/reference/micro.html
+ * @link https://docs.phalcon.io/5.9/reproducible-tests/
  * @example
  	$app = new Micro();
 	$app->setConfig('/path/to/config.php');
@@ -94,7 +94,7 @@ class Micro extends \Phalcon\Mvc\Micro implements IRun {
     /**
      * Set namespaces to tranverse through in the autoloader
      *
-     * @link http://docs.phalconphp.com/en/latest/reference/loader.html
+     * @link https://docs.phalcon.io/5.9/autoload/
      * @throws Exception
      * @param string $file		map of namespace to directories
      */
