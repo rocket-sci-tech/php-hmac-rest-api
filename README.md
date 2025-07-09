@@ -14,7 +14,7 @@ This is a maintained fork of the project **[jeteokeeffe/php-hmac-rest-api](https
 
 ## Requirements
 
-PHP 8.3 or greater
+PHP 8.2 or greater
 
 Required PHP Modules
 - OpenSSL

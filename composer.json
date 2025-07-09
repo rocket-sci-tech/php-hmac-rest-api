@@ -13,6 +13,11 @@
             "role": "Maintainer"
         }
     ],
+    "autoload": {
+        "psr-4": {
+            "RocketTech\\": "app/"
+        }
+    },
     "require": {
         "php": ">=8.2",
         "ext-phalcon": ">=5.8"
