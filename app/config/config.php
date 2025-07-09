@@ -5,14 +5,14 @@
  */
 
 $settings = array(
-	'database' => array(
-		'adapter' => 'Mysql',	/* Possible Values: Mysql, Postgres, Sqlite */
-		'host' => 'localhost',
-		'username' => 'test',
-		'password' => 'test',
-		'name' => 'api',
-		'port' => 3306
-	),
+    'database' => array(
+        'adapter' => 'Mysql', /* Possible Values: Mysql, Postgres, Sqlite */
+        'host' => 'localhost',
+        'username' => 'test',
+        'password' => 'test',
+        'name' => 'api',
+        'port' => 3306
+    ),
 );
 
 

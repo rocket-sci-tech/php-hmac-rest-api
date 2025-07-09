@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Driver for PHP HMAC Restful API using PhalconPHP's Micro framework
  * 
@@ -7,7 +6,6 @@
  * @author  Jete O'Keeffe 
  * @license none
  */
-
 
 // Setup configuration files
 $dir = dirname(__DIR__);
@@ -19,7 +17,7 @@ require $appDir . '/library/interfaces/IRun.php';
 require $appDir . '/library/application/Micro.php';
 
 // Capture runtime errors
-register_shutdown_function(['Utilities\Debug\PhpError','runtimeShutdown']);
+register_shutdown_function(['Utilities\Debug\PhpError', 'runtimeShutdown']);
 
 // Necessary paths to autoload & config settings
 $configPath = $appDir . '/config/';
@@ -30,52 +28,57 @@ $routes = $configPath . 'routes.php';
 use \Models\Api as Api;
 
 try {
-	$app = new Application\Micro();
+    $app = new Application\Micro();
 
-	// Record any php warnings/errors
-	set_error_handler(['Utilities\Debug\PhpError','errorHandler']);
+    // Record any php warnings/errors
+    set_error_handler(['Utilities\Debug\PhpError', 'errorHandler']);
 
-	// Setup App (dependency injector, configuration variables and autoloading resources/classes)
-	$app->setAutoload($autoLoad, $appDir);
-	$app->setConfig($config);
+    // Setup App (dependency injector, configuration variables and autoloading resources/classes)
+    $app->setAutoload($autoLoad, $appDir);
+    $app->setConfig($config);
 
-	// Get Authentication Headers
-	$clientId = $app->request->getHeader('API_ID');
-	$time = $app->request->getHeader('API_TIME');
-	$hash = $app->request->getHeader('API_HASH');
+    // Get Authentication Headers
+    $clientId = $app->request->getHeader('API_ID');
+    $time = $app->request->getHeader('API_TIME');
+    $hash = $app->request->getHeader('API_HASH');
+    $privateKey = NULL;
 
-	$privateKey = Api::findFirst($clientId)->private_key;
-	
-        switch ($_SERVER['REQUEST_METHOD']) {
-            
-            case 'GET':
-                $data = $_GET;
-                unset($data['_url']); // clean for hashes comparison
-                break;
-            
-            case 'POST':
-                $data = $_POST;
-                break;
+    if ($clientId && $time && $hash)
+    {
+        $privateKey = Api::findFirst($clientId)->private_key;
+    }
 
-            default: // PUT AND DELETE
-                parse_str(file_get_contents('php://input'), $data);
-                break;
-        }
-	$message = new \Micro\Messages\Auth($clientId, $time, $hash, $data);
+    switch ($_SERVER['REQUEST_METHOD']) {
 
-	// Setup HMAC Authentication callback to validate user before routing message
-	// Failure to validate will stop the process before going to proper Restful Route
-	$app->setEvents(new \Events\Api\HmacAuthenticate($message, $privateKey));	
+        case 'GET':
+            $data = $_GET;
+            unset($data['_url']); // clean for hashes comparison
+            break;
 
-	// Setup RESTful Routes
-	$app->setRoutes($routes);
+        case 'POST':
+            $data = $_POST;
+            break;
 
-	// Boom, Run
-	$app->run();
+        default: // PUT AND DELETE
+            parse_str(file_get_contents('php://input'), $data);
+            break;
+    }
+    $message = new \Micro\Messages\Auth($clientId, $time, $hash, $data);
 
-} catch(Exception $e) {
-	// Do Something I guess, return Server Error message
-	$app->response->setStatusCode(500, "Server Error");
-	$app->response->setContent($e->getMessage());
-	$app->response->send();
+    // Setup HMAC Authentication callback to validate user before routing message
+    // Failure to validate will stop the process before going to proper Restful Route
+    $app->setEvents(new \Events\Api\HmacAuthenticate($message, $privateKey));
+
+    // Setup RESTful Routes
+    $app->setRoutes($routes);
+
+    // Boom, Run
+    $app->run();
+}
+catch (Exception $e)
+{
+    // Do Something I guess, return Server Error message
+    $app->response->setStatusCode(500, "Server Error");
+    $app->response->setContent($e->getMessage());
+    $app->response->send();
 }

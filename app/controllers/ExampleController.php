@@ -2,32 +2,40 @@
 
 namespace Controllers;
 
-class ExampleController extends \Phalcon\Mvc\Controller {
+class ExampleController extends \Phalcon\Mvc\Controller
+{
+    public function pingGetAction()
+    {
+        echo "pong - get method";
+    }
 
+    public function pingAction()
+    {
+        echo "pong";
+    }
 
-	public function pingAction() {
-
-		echo "pong";
-	}
-
-
-    public function testAction($id) {
+    public function testAction($id)
+    {
         echo "test (id: $id)";
     }
 
-    public function skipAction($name) {
+    public function skipAction($name)
+    {
         echo "auth skipped ($name)";
     }
     
-    public function getAction() {
+    public function getAction()
+    {
     	echo "pong - get method";
     }
     
-    public function putAction() {
+    public function putAction()
+    {
     	echo "pong - put method";
     }
     
-    public function deleteAction() {
+    public function deleteAction()
+    {
     	echo "pong - delete method";
     }
 }
