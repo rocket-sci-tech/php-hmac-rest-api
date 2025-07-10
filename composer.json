@@ -15,7 +15,13 @@
     ],
     "autoload": {
         "psr-4": {
-            "RocketTech\\": "app/"
+            "RocketTech\\Events\\Api\\": "app/library/events/api/",
+            "RocketTech\\Micro\\Messages\\": "app/library/micro/messages/",
+            "RocketTech\\Utilities\\Debug\\": "app/library/utilities/debug/",
+            "RocketTech\\Security\\Hmac\\": "app/library/security/hmac/",
+            "RocketTech\\Application\\": "app/library/application/",
+            "RocketTech\\Interfaces\\": "app/library/interfaces/",
+            "RocketTech\\Models\\": "app/models/"
         }
     },
     "require": {
